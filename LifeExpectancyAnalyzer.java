@@ -26,13 +26,34 @@ public class LifeExpectancyAnalyzer {
      * @throws IOFoundException if the file is not found
      */
     public void readFromFile(String filename) throws IOException {
+        File f = new File (filename);
+        Scanner s = new Scanner (f);
+        s.nextLine();
+        while(s.hasNextLine()){
+            String line = s.nextLine();
+            String[] items = line.split(",");
+            Country temp = new Country(items[0],
+                 items[1],
+                 Integer.parseInt(items[2]),
+                 items[3],
+                 Double.parseDouble(items[4]),
+                 Double.parseDouble(items[5]),
+                 Double.parseDouble(items[6]));
+            countries.add(temp);
+        }
+        
 
-    }
+        
+
+        }
 
     /**
      * Display all countries in the list
      */
     public void displayAllCountries() {
+        for(Country c:countries){
+            System.out.println(c);
+        }
   
     }
 
@@ -41,6 +62,11 @@ public class LifeExpectancyAnalyzer {
      * @param region the region to filter by
      */
     public void displayByRegion(String region) {
+        for(Country c:countries){
+            if(c.getRegion().equals(region)){
+                System.out.println(c);
+            }
+        }
  
     }
 
@@ -49,6 +75,17 @@ public class LifeExpectancyAnalyzer {
      * @return the Country with the highest life expectancy, or null if list is empty
      */
     public Country findHighestLifeExpectancy() {
+        if(countries.size()==0){
+            return null;
+        }
+        Country x = countries.get(0);
+        for(int i=1;i<countries.size();i++){
+            Country a = countries.get(i);
+            if(a.getLifeExpectancy2020()>x.getLifeExpectancy2020()){
+                x=a;
+            }
+
+        }return x;
        
     }
 
@@ -57,7 +94,17 @@ public class LifeExpectancyAnalyzer {
      * @return the Country with the lowest life expectancy, or null if list is empty
      */
     public Country findLowestLifeExpectancy() {
+                if(countries.size()==0){
+            return null;
+        }
+        Country x = countries.get(0);
+        for(int i=1;i<countries.size();i++){
+            Country a = countries.get(i);
+            if(a.getLifeExpectancy2020()<x.getLifeExpectancy2020()){
+                x=a;
+            }
 
+        }return x;
     }
 
     /**
@@ -65,6 +112,14 @@ public class LifeExpectancyAnalyzer {
      * @return average life expectancy in 2020, or 0 if list is empty
      */
     public double calculateAverageLifeExpectancy() {
+                if(countries.size()==0){
+            return 0;
+        }
+        double x=0;
+        for(Country c:countries){
+            x+=c.getLifeExpectancy2020();
+        }
+        return x/countries.size();
         
     }
 
@@ -74,7 +129,13 @@ public class LifeExpectancyAnalyzer {
      * @return number of countries in that income group
      */
     public int countByIncomeGroup(String incomeGroup) {
-        
+        int count=0;
+        for(Country c:countries){
+            if(incomeGroup.equals(c.getIncomeGroup())){
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -82,6 +143,15 @@ public class LifeExpectancyAnalyzer {
      * @return the Country with the largest improvement, or null if list is empty
      */
     public Country findMostImprovement() {
+                 if(countries.size()==0){
+            return null;
+        }      
+        Country most = countries.get(0);
+        for(Country i:countries){
+            if(i.getLifeExpectancy2020()-i.getLifeExpectancy2010()>most.getLifeExpectancy2020()-most.getLifeExpectancy2010()){
+                most=i;
+            }
+        }return most;
         
     }
 
@@ -89,7 +159,13 @@ public class LifeExpectancyAnalyzer {
      * Display summary statistics
      */
     public void displayStatistics() {
-        
+        displayByRegion("Asia");
+        System.out.println(findHighestLifeExpectancy());
+        System.out.println(findLowestLifeExpectancy());
+        System.out.println(calculateAverageLifeExpectancy());
+        System.out.println(countByIncomeGroup("high"));
+        System.out.println(findMostImprovement());
+
     }
 
 }
