@@ -27,8 +27,9 @@ public class StateRenewableAnalyzer {
      * @throws IOException if the file is not found
      */
     public void readFromFile(String filename) throws IOException {
-InputStream is = getClass().getResourceAsStream(filename);
-        Scanner s = new Scanner(is);
+
+
+Scanner s = new Scanner(new java.io.File(filename));
         s.nextLine();
         while (s.hasNextLine()) {
             String line = s.nextLine();
@@ -42,6 +43,7 @@ InputStream is = getClass().getResourceAsStream(filename);
                     Double.parseDouble(items[5]));
             states.add(temp);
         }
+    s.close();
 
     }
 
@@ -131,10 +133,10 @@ if (states.size() == 0) {
      * @return sum of renewableGenTWh values
      */
     public double totalRenewableGenTWh() {
-        int i = 0;
+        double d = 0;
         for(StateRenewable s:states){
-            i+=s.getRenewableGenTWh();
-        }return i;
+            d+=s.getRenewableGenTWh();
+        }return d;
     }
 
     /**

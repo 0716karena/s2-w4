@@ -1,3 +1,5 @@
+import java.lang.reflect.AccessFlag.Location;
+
 /**
  * Represents a U.S. state (or DC) with renewable electricity data.
  * Mirrors the life expectancy and energy country exercises for assessment.
@@ -80,6 +82,6 @@ public class StateRenewable {
      * Format: Name - XX.X% renewable (YY.Y TWh of ZZ.Z TWh)
      */
     public String toString() {
-        return null;
+        return name + " - " + percentRenewable + "% renewable ("+ renewableGenTWh + "TWh of" + totalGenTWh + "TWh)";
     }
 }
