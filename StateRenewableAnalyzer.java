@@ -148,8 +148,8 @@ if (states.size() == 0) {
 if (states.size() == 0) {
             return null;
         }
-        StateRenewable x = states.get(0);
-        for (int i = 1; i < states.size(); i++) {
+        StateRenewable x = states.get(1);
+        for (int i = 2; i < states.size(); i++) {
             StateRenewable a = states.get(i);
             if (a.getRenewableGenTWh() > x.getRenewableGenTWh()) {
                 x = a;
